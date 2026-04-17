@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>ЯЩИК ПАНДОРЫ — КЕША РОЗЫГРЫШ</title>
+<title>ЯЩИК ПАНДОРЫ — СЕТЫ И РОЗЫГРЫШ</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -357,7 +357,7 @@
     border: 1.5px solid rgba(168,85,247,0.5);
     border-radius: 48px;
     padding: 32px 28px;
-    max-width: 520px;
+    max-width: 560px;
     width: 90%;
     text-align: center;
     transform: scale(0.8) translateY(20px);
@@ -433,6 +433,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .apply-set-btn {
+    background: var(--purple-bright);
+    border: none;
+    padding: 6px 14px;
+    border-radius: 40px;
+    font-size: 11px;
+    font-family: 'Unbounded', sans-serif;
+    cursor: pointer;
+    color: white;
   }
   .skin-item {
     display: flex;
@@ -516,7 +528,7 @@
   <div class="action-group">
     <button class="action-btn" id="shuffleBtn">🎲 ПЕРЕМЕШАТЬ КЕЙСЫ</button>
     <button class="action-btn" id="toggleSettingsBtn">⚙️ НАСТРОЙКИ НАГРАД</button>
-    <button class="action-btn" id="openSetsBtn">📦 СЕТЫ</button>
+    <button class="action-btn" id="openSetsBtn">📦 СЕТЫ (наборы скинов)</button>
   </div>
 
   <div class="prizes-section" id="prizesSection">
@@ -544,16 +556,16 @@
 <div class="modal-overlay" id="setsModalOverlay">
   <div class="modal sets-modal-content">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h3 style="color: white; font-family: 'Unbounded';">📦 Управление сетами</h3>
+      <h3 style="color: white; font-family: 'Unbounded';">📦 Управление сетами (наборы скинов)</h3>
       <button class="modal-close" style="padding: 8px 20px;" onclick="closeSetsModal()">✕</button>
     </div>
     <div id="setsContainer"></div>
-    <button class="add-set-btn" id="addSetBtn">+ Добавить сет</button>
+    <button class="add-set-btn" id="addSetBtn">+ Создать новый сет</button>
   </div>
 </div>
 
 <script>
-// ------------------- ОСНОВНЫЕ ПРИЗЫ (без изменений) -------------------
+// ------------------- ОСНОВНЫЕ ПРИЗЫ (10 штук для ящиков) -------------------
 let prizes = [
   { name: 'Длор', img: null },
   { name: 'Вой', img: null },
@@ -570,31 +582,69 @@ let prizes = [
 let selectedBox = null;
 let openedBoxes = new Set();
 
-// ------------------- СЕТЫ (localStorage) -------------------
+// ------------------- СЕТЫ (наборы скинов) -------------------
 let sets = []; // каждый сет: { id, name, skins: [{ name, img }] }
 
 function loadSets() {
-  const stored = localStorage.getItem('csgo_sets');
+  const stored = localStorage.getItem('csgo_sets_pandora');
   if (stored) {
     sets = JSON.parse(stored);
   } else {
     // демо-сет для примера
     sets = [
-      { id: 'set1', name: 'Элитные скины', skins: [{ name: 'AWP | Dragon Lore', img: null }, { name: 'M4A4 | Howl', img: null }] }
+      { id: 'set1', name: 'Огнестрельный сет', skins: [
+        { name: 'AWP | Dragon Lore', img: null },
+        { name: 'AK-47 | Fire Serpent', img: null },
+        { name: 'M4A4 | Howl', img: null },
+        { name: 'Desert Eagle | Blaze', img: null },
+        { name: 'USP-S | Kill Confirmed', img: null }
+      ] },
+      { id: 'set2', name: 'Ножевая коллекция', skins: [
+        { name: 'Bayonet | Doppler', img: null },
+        { name: 'Karambit | Fade', img: null },
+        { name: 'M9 Bayonet | Marble Fade', img: null }
+      ] }
     ];
     saveSets();
   }
 }
 
 function saveSets() {
-  localStorage.setItem('csgo_sets', JSON.stringify(sets));
+  localStorage.setItem('csgo_sets_pandora', JSON.stringify(sets));
+}
+
+// Применить выбранный сет к основным призам (заполнить prizes максимум 10 скинами из сета)
+function applySetToPrizes(setIndex) {
+  const set = sets[setIndex];
+  if (!set) return;
+  const newPrizes = [];
+  // берем скины из сета, не более 10
+  for (let i = 0; i < Math.min(set.skins.length, 10); i++) {
+    newPrizes.push({ ...set.skins[i] }); // копируем
+  }
+  // если в сете меньше 10, добиваем стандартными
+  while (newPrizes.length < 10) {
+    newPrizes.push({ name: 'Базовый приз', img: null });
+  }
+  // заменяем prizes
+  prizes.length = 0;
+  newPrizes.forEach(p => prizes.push(p));
+  // сбрасываем открытые ящики и выбор
+  openedBoxes.clear();
+  selectedBox = null;
+  document.getElementById('spinBtn').disabled = true;
+  renderBoxes();
+  renderPrizesList();
+  closeSetsModal();
+  // небольшой фидбек
+  alert(`Сет "${set.name}" применён к розыгрышу!`);
 }
 
 function renderSetsUI() {
   const container = document.getElementById('setsContainer');
   if (!container) return;
   if (sets.length === 0) {
-    container.innerHTML = '<div style="color: #aaa; text-align:center; padding:20px;">Нет созданных сетов. Нажмите "+ Добавить сет"</div>';
+    container.innerHTML = '<div style="color: #aaa; text-align:center; padding:20px;">Нет созданных сетов. Нажмите "+ Создать новый сет"</div>';
     return;
   }
   container.innerHTML = '';
@@ -603,11 +653,14 @@ function renderSetsUI() {
     setDiv.className = 'set-card';
     setDiv.innerHTML = `
       <div class="set-title">
-        <span>📁 ${escapeHtml(set.name)}</span>
-        <button class="small-btn" data-set-delete="${idx}" style="background:#ff4444aa;">🗑️</button>
+        <span>📁 ${escapeHtml(set.name)} (${set.skins.length} скинов)</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="apply-set-btn" data-set-apply="${idx}">🎲 Применить этот сет к ящикам</button>
+          <button class="small-btn" data-set-delete="${idx}" style="background:#ff4444aa;">🗑️</button>
+        </div>
       </div>
       <div class="set-skins-list" id="set-skins-${idx}"></div>
-      <button class="add-skin-btn" data-set-addskin="${idx}">+ Добавить скин в сет</button>
+      <button class="add-skin-btn" data-set-addskin="${idx}">+ Добавить скин в этот сет</button>
     `;
     container.appendChild(setDiv);
     
@@ -635,33 +688,40 @@ function renderSetsUI() {
       }
     });
     
+    // применение сета к призам
+    setDiv.querySelector('[data-set-apply]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      applySetToPrizes(idx);
+    });
+    
     // добавление скина в этот сет
     setDiv.querySelector('[data-set-addskin]').addEventListener('click', () => {
       openAddSkinToSet(idx);
     });
     
-    // обработчики удаления скинов
+    // обработчики удаления скинов (динамические, через делегирование, но проще повесить после рендера)
     document.querySelectorAll(`[data-skin-delete]`).forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const val = btn.getAttribute('data-skin-delete');
-        const [setIdx, skinIdx] = val.split('|').map(Number);
-        if (!isNaN(setIdx) && !isNaN(skinIdx) && sets[setIdx]) {
-          sets[setIdx].skins.splice(skinIdx, 1);
-          saveSets();
-          renderSetsUI();
-        }
-      });
+      btn.removeEventListener('click', handleSkinDelete);
+      btn.addEventListener('click', handleSkinDelete);
     });
   });
+}
+
+function handleSkinDelete(e) {
+  e.stopPropagation();
+  const val = e.currentTarget.getAttribute('data-skin-delete');
+  const [setIdx, skinIdx] = val.split('|').map(Number);
+  if (!isNaN(setIdx) && !isNaN(skinIdx) && sets[setIdx]) {
+    sets[setIdx].skins.splice(skinIdx, 1);
+    saveSets();
+    renderSetsUI();
+  }
 }
 
 function openAddSkinToSet(setIdx) {
   const skinName = prompt('Введите название скина:');
   if (!skinName) return;
-  // загрузка фото опционально, предложим позже, но можно и просто текст
   const newSkin = { name: skinName, img: null };
-  // предложим загрузить фото
   const loadPhoto = confirm('Хотите добавить фото для этого скина?');
   if (loadPhoto) {
     const input = document.createElement('input');
@@ -693,7 +753,7 @@ function openAddSkinToSet(setIdx) {
 }
 
 function addNewSet() {
-  const setName = prompt('Введите название нового сета:');
+  const setName = prompt('Введите название нового сета (набора скинов):');
   if (!setName) return;
   const newSet = {
     id: Date.now().toString(),
@@ -705,7 +765,6 @@ function addNewSet() {
   renderSetsUI();
 }
 
-// модалка сетов
 function openSetsModal() {
   renderSetsUI();
   document.getElementById('setsModalOverlay').classList.add('show');
