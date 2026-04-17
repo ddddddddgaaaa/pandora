@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>ЯЩИК ПАНДОРЫ — СЕТЫ И РОЗЫГРЫШ</title>
+<title>ЯЩИК ПАНДОРЫ — РОЗЫГРЫШ СКИНОВ</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -278,6 +278,53 @@
   }
   .add-prize-btn:hover { border-color: var(--purple-glow); background: rgba(168,85,247,0.1); }
 
+  /* Set management controls */
+  .set-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    align-items: center;
+    background: rgba(0,0,0,0.3);
+    padding: 16px;
+    border-radius: 20px;
+  }
+  .set-select {
+    flex: 2;
+    min-width: 150px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(168,85,247,0.5);
+    border-radius: 40px;
+    padding: 10px 16px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+  }
+  .set-select option { background: var(--purple-mid); }
+  .set-btn {
+    background: rgba(168,85,247,0.2);
+    border: 1px solid var(--purple-glow);
+    border-radius: 40px;
+    padding: 10px 20px;
+    color: white;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .set-btn:hover {
+    background: var(--purple-bright);
+    transform: translateY(-2px);
+  }
+  .set-btn.delete-set {
+    border-color: #ff6666;
+    color: #ffaaaa;
+  }
+  .set-btn.delete-set:hover { background: #ff4444; color: white; }
+
   /* Action buttons */
   .action-group {
     display: flex;
@@ -357,7 +404,7 @@
     border: 1.5px solid rgba(168,85,247,0.5);
     border-radius: 48px;
     padding: 32px 28px;
-    max-width: 560px;
+    max-width: 520px;
     width: 90%;
     text-align: center;
     transform: scale(0.8) translateY(20px);
@@ -397,99 +444,6 @@
   }
   .modal-close:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(168,85,247,0.6); }
 
-  /* Sets window styles */
-  .sets-modal-content {
-    text-align: left;
-  }
-  .sets-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-  }
-  .sets-header h3 {
-    font-family: 'Unbounded', sans-serif;
-    color: white;
-    font-size: 20px;
-  }
-  .sets-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  .set-card {
-    background: rgba(0,0,0,0.4);
-    border-radius: 24px;
-    padding: 16px;
-    border: 1px solid rgba(168,85,247,0.3);
-  }
-  .set-title {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 18px;
-    color: var(--purple-light);
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .apply-set-btn {
-    background: var(--purple-bright);
-    border: none;
-    padding: 6px 14px;
-    border-radius: 40px;
-    font-size: 11px;
-    font-family: 'Unbounded', sans-serif;
-    cursor: pointer;
-    color: white;
-  }
-  .skin-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 16px;
-    padding: 10px;
-    margin-bottom: 8px;
-  }
-  .skin-img {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: #2a0f4a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .skin-img img { width: 100%; height: 100%; object-fit: cover; }
-  .skin-name {
-    flex: 1;
-    color: white;
-    font-weight: 500;
-  }
-  .small-btn {
-    background: rgba(168,85,247,0.2);
-    border: none;
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    cursor: pointer;
-    color: white;
-  }
-  .add-skin-btn, .add-set-btn {
-    width: 100%;
-    margin-top: 12px;
-    background: rgba(168,85,247,0.2);
-    border: 1px dashed var(--purple-glow);
-    border-radius: 20px;
-    padding: 10px;
-    color: var(--purple-light);
-    cursor: pointer;
-  }
   .confetti-piece {
     position: fixed;
     width: 10px; height: 10px;
@@ -502,6 +456,7 @@
     .boxes-grid { gap: 8px; }
     .action-btn { padding: 8px 16px; font-size: 11px; }
     .modal-prize-img { width: 140px; height: 140px; }
+    .set-controls { flex-direction: column; align-items: stretch; }
   }
 </style>
 </head>
@@ -528,14 +483,24 @@
   <div class="action-group">
     <button class="action-btn" id="shuffleBtn">🎲 ПЕРЕМЕШАТЬ КЕЙСЫ</button>
     <button class="action-btn" id="toggleSettingsBtn">⚙️ НАСТРОЙКИ НАГРАД</button>
-    <button class="action-btn" id="openSetsBtn">📦 СЕТЫ (наборы скинов)</button>
   </div>
 
   <div class="prizes-section" id="prizesSection">
-    <div class="section-title">🎁 РЕДАКТОР ПРИЗОВ</div>
+    <div class="section-title">🎁 РЕДАКТОР ПРИЗОВ (10 скинов)</div>
     <div class="section-sub">Меняй названия и загружай изображения (клик на 📷)</div>
+    
+    <!-- Управление сетами -->
+    <div class="set-controls">
+      <select id="setSelect" class="set-select">
+        <option value="">-- Выберите сет для загрузки --</option>
+      </select>
+      <button id="loadSetBtn" class="set-btn">📂 Загрузить сет</button>
+      <button id="saveSetBtn" class="set-btn">💾 Сохранить как сет</button>
+      <button id="deleteSetBtn" class="set-btn delete-set">🗑️ Удалить сет</button>
+    </div>
+
     <div class="prizes-list" id="prizesList"></div>
-    <button class="add-prize-btn" id="addPrizeBtn">+ Добавить приз</button>
+    <button class="add-prize-btn" id="addPrizeBtn">+ Добавить приз (скин)</button>
   </div>
 
   <button class="spin-btn" id="spinBtn">🎲 ОТКРЫТЬ ЯЩИК</button>
@@ -549,18 +514,6 @@
     <div class="modal-prize-name" id="modalPrizeName">—</div>
     <div class="modal-box-num" id="modalBoxNum"></div>
     <button class="modal-close" onclick="closeModal()">ЗАБРАТЬ! 🎉</button>
-  </div>
-</div>
-
-<!-- Modal для СЕТОВ -->
-<div class="modal-overlay" id="setsModalOverlay">
-  <div class="modal sets-modal-content">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h3 style="color: white; font-family: 'Unbounded';">📦 Управление сетами (наборы скинов)</h3>
-      <button class="modal-close" style="padding: 8px 20px;" onclick="closeSetsModal()">✕</button>
-    </div>
-    <div id="setsContainer"></div>
-    <button class="add-set-btn" id="addSetBtn">+ Создать новый сет</button>
   </div>
 </div>
 
@@ -582,195 +535,120 @@ let prizes = [
 let selectedBox = null;
 let openedBoxes = new Set();
 
-// ------------------- СЕТЫ (наборы скинов) -------------------
-let sets = []; // каждый сет: { id, name, skins: [{ name, img }] }
+// ------------------- УПРАВЛЕНИЕ СЕТАМИ (localStorage) -------------------
+let savedSets = []; // массив объектов { name, prizes: [] }
 
-function loadSets() {
-  const stored = localStorage.getItem('csgo_sets_pandora');
+function loadSetsFromStorage() {
+  const stored = localStorage.getItem('pandora_sets');
   if (stored) {
-    sets = JSON.parse(stored);
+    savedSets = JSON.parse(stored);
   } else {
     // демо-сет для примера
-    sets = [
-      { id: 'set1', name: 'Огнестрельный сет', skins: [
+    savedSets = [
+      { name: 'Огнестрельный набор', prizes: [
         { name: 'AWP | Dragon Lore', img: null },
         { name: 'AK-47 | Fire Serpent', img: null },
         { name: 'M4A4 | Howl', img: null },
         { name: 'Desert Eagle | Blaze', img: null },
-        { name: 'USP-S | Kill Confirmed', img: null }
+        { name: 'USP-S | Kill Confirmed', img: null },
+        { name: 'Glock-18 | Fade', img: null },
+        { name: 'SSG 08 | Blood in the Water', img: null },
+        { name: 'P90 | Death by Kitty', img: null },
+        { name: 'MAC-10 | Neon Rider', img: null },
+        { name: 'MP9 | Bulldozer', img: null }
       ] },
-      { id: 'set2', name: 'Ножевая коллекция', skins: [
+      { name: 'Ножевая коллекция', prizes: [
         { name: 'Bayonet | Doppler', img: null },
         { name: 'Karambit | Fade', img: null },
-        { name: 'M9 Bayonet | Marble Fade', img: null }
+        { name: 'M9 Bayonet | Marble Fade', img: null },
+        { name: 'Butterfly | Tiger Tooth', img: null },
+        { name: 'Flip Knife | Crimson Web', img: null },
+        { name: 'Huntsman | Slaughter', img: null },
+        { name: 'Falchion | Freehand', img: null },
+        { name: 'Bowie | Forest DDPAT', img: null },
+        { name: 'Shadow Daggers | Autotronic', img: null },
+        { name: 'Navaja | Stained', img: null }
       ] }
     ];
-    saveSets();
+    saveSetsToStorage();
   }
+  updateSetSelect();
 }
 
-function saveSets() {
-  localStorage.setItem('csgo_sets_pandora', JSON.stringify(sets));
+function saveSetsToStorage() {
+  localStorage.setItem('pandora_sets', JSON.stringify(savedSets));
 }
 
-// Применить выбранный сет к основным призам (заполнить prizes максимум 10 скинами из сета)
-function applySetToPrizes(setIndex) {
-  const set = sets[setIndex];
-  if (!set) return;
-  const newPrizes = [];
-  // берем скины из сета, не более 10
-  for (let i = 0; i < Math.min(set.skins.length, 10); i++) {
-    newPrizes.push({ ...set.skins[i] }); // копируем
-  }
-  // если в сете меньше 10, добиваем стандартными
-  while (newPrizes.length < 10) {
-    newPrizes.push({ name: 'Базовый приз', img: null });
-  }
-  // заменяем prizes
-  prizes.length = 0;
-  newPrizes.forEach(p => prizes.push(p));
-  // сбрасываем открытые ящики и выбор
-  openedBoxes.clear();
-  selectedBox = null;
-  document.getElementById('spinBtn').disabled = true;
-  renderBoxes();
-  renderPrizesList();
-  closeSetsModal();
-  // небольшой фидбек
-  alert(`Сет "${set.name}" применён к розыгрышу!`);
-}
-
-function renderSetsUI() {
-  const container = document.getElementById('setsContainer');
-  if (!container) return;
-  if (sets.length === 0) {
-    container.innerHTML = '<div style="color: #aaa; text-align:center; padding:20px;">Нет созданных сетов. Нажмите "+ Создать новый сет"</div>';
-    return;
-  }
-  container.innerHTML = '';
-  sets.forEach((set, idx) => {
-    const setDiv = document.createElement('div');
-    setDiv.className = 'set-card';
-    setDiv.innerHTML = `
-      <div class="set-title">
-        <span>📁 ${escapeHtml(set.name)} (${set.skins.length} скинов)</span>
-        <div style="display: flex; gap: 8px;">
-          <button class="apply-set-btn" data-set-apply="${idx}">🎲 Применить этот сет к ящикам</button>
-          <button class="small-btn" data-set-delete="${idx}" style="background:#ff4444aa;">🗑️</button>
-        </div>
-      </div>
-      <div class="set-skins-list" id="set-skins-${idx}"></div>
-      <button class="add-skin-btn" data-set-addskin="${idx}">+ Добавить скин в этот сет</button>
-    `;
-    container.appendChild(setDiv);
-    
-    const skinsContainer = setDiv.querySelector(`.set-skins-list`);
-    set.skins.forEach((skin, skinIdx) => {
-      const skinItem = document.createElement('div');
-      skinItem.className = 'skin-item';
-      skinItem.innerHTML = `
-        <div class="skin-img">
-          ${skin.img ? `<img src="${skin.img}">` : '🎨'}
-        </div>
-        <div class="skin-name">${escapeHtml(skin.name) || 'Без названия'}</div>
-        <button class="small-btn" data-skin-delete="${idx}|${skinIdx}" style="background:#ff6666aa;">✕</button>
-      `;
-      skinsContainer.appendChild(skinItem);
-    });
-    
-    // удаление сета
-    setDiv.querySelector('[data-set-delete]').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (confirm(`Удалить сет "${set.name}"?`)) {
-        sets.splice(idx, 1);
-        saveSets();
-        renderSetsUI();
-      }
-    });
-    
-    // применение сета к призам
-    setDiv.querySelector('[data-set-apply]').addEventListener('click', (e) => {
-      e.stopPropagation();
-      applySetToPrizes(idx);
-    });
-    
-    // добавление скина в этот сет
-    setDiv.querySelector('[data-set-addskin]').addEventListener('click', () => {
-      openAddSkinToSet(idx);
-    });
-    
-    // обработчики удаления скинов (динамические, через делегирование, но проще повесить после рендера)
-    document.querySelectorAll(`[data-skin-delete]`).forEach(btn => {
-      btn.removeEventListener('click', handleSkinDelete);
-      btn.addEventListener('click', handleSkinDelete);
-    });
+function updateSetSelect() {
+  const select = document.getElementById('setSelect');
+  select.innerHTML = '<option value="">-- Выберите сет для загрузки --</option>';
+  savedSets.forEach((set, idx) => {
+    const option = document.createElement('option');
+    option.value = idx;
+    option.textContent = set.name;
+    select.appendChild(option);
   });
 }
 
-function handleSkinDelete(e) {
-  e.stopPropagation();
-  const val = e.currentTarget.getAttribute('data-skin-delete');
-  const [setIdx, skinIdx] = val.split('|').map(Number);
-  if (!isNaN(setIdx) && !isNaN(skinIdx) && sets[setIdx]) {
-    sets[setIdx].skins.splice(skinIdx, 1);
-    saveSets();
-    renderSetsUI();
-  }
-}
-
-function openAddSkinToSet(setIdx) {
-  const skinName = prompt('Введите название скина:');
-  if (!skinName) return;
-  const newSkin = { name: skinName, img: null };
-  const loadPhoto = confirm('Хотите добавить фото для этого скина?');
-  if (loadPhoto) {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = ev => {
-          newSkin.img = ev.target.result;
-          sets[setIdx].skins.push(newSkin);
-          saveSets();
-          renderSetsUI();
-        };
-        reader.readAsDataURL(file);
-      } else {
-        sets[setIdx].skins.push(newSkin);
-        saveSets();
-        renderSetsUI();
-      }
-    };
-    input.click();
-  } else {
-    sets[setIdx].skins.push(newSkin);
-    saveSets();
-    renderSetsUI();
-  }
-}
-
-function addNewSet() {
-  const setName = prompt('Введите название нового сета (набора скинов):');
+// Сохранить текущий массив prizes как сет
+function saveCurrentAsSet() {
+  const setName = prompt('Введите название сета (набора скинов):');
   if (!setName) return;
-  const newSet = {
-    id: Date.now().toString(),
-    name: setName,
-    skins: []
-  };
-  sets.push(newSet);
-  saveSets();
-  renderSetsUI();
+  // Проверяем, есть ли уже сет с таким именем
+  const existingIndex = savedSets.findIndex(s => s.name === setName);
+  if (existingIndex !== -1) {
+    if (confirm(`Сет "${setName}" уже существует. Перезаписать его?`)) {
+      savedSets[existingIndex].prizes = JSON.parse(JSON.stringify(prizes)); // глубокая копия
+      saveSetsToStorage();
+      updateSetSelect();
+      alert(`Сет "${setName}" обновлён!`);
+    }
+  } else {
+    savedSets.push({ name: setName, prizes: JSON.parse(JSON.stringify(prizes)) });
+    saveSetsToStorage();
+    updateSetSelect();
+    alert(`Сет "${setName}" сохранён!`);
+  }
 }
 
-function openSetsModal() {
-  renderSetsUI();
-  document.getElementById('setsModalOverlay').classList.add('show');
+// Загрузить выбранный сет в текущие призы
+function loadSelectedSet() {
+  const select = document.getElementById('setSelect');
+  const idx = select.value;
+  if (idx === "") {
+    alert("Выберите сет из списка");
+    return;
+  }
+  const set = savedSets[parseInt(idx)];
+  if (set) {
+    // Заменяем текущие призы (глубокое копирование)
+    prizes.length = 0;
+    set.prizes.forEach(p => prizes.push({ name: p.name, img: p.img }));
+    // Сбрасываем открытые ящики и выбор
+    openedBoxes.clear();
+    selectedBox = null;
+    document.getElementById('spinBtn').disabled = true;
+    renderBoxes();
+    renderPrizesList();
+    alert(`Сет "${set.name}" загружен! Теперь в ящиках эти скины.`);
+  }
 }
-function closeSetsModal() {
-  document.getElementById('setsModalOverlay').classList.remove('show');
+
+// Удалить выбранный сет
+function deleteSelectedSet() {
+  const select = document.getElementById('setSelect');
+  const idx = select.value;
+  if (idx === "") {
+    alert("Выберите сет для удаления");
+    return;
+  }
+  const setName = savedSets[parseInt(idx)].name;
+  if (confirm(`Удалить сет "${setName}"?`)) {
+    savedSets.splice(parseInt(idx), 1);
+    saveSetsToStorage();
+    updateSetSelect();
+    alert(`Сет "${setName}" удалён.`);
+  }
 }
 
 // ------------------- ОСТАЛЬНАЯ ЛОГИКА (ящики, призы, перемешивание) -------------------
@@ -900,6 +778,10 @@ function handleImgUpload(event, idx) {
 }
 
 function addPrize() {
+  if (prizes.length >= 20) {
+    alert("Нельзя добавить больше 20 призов (ограничение интерфейса)");
+    return;
+  }
   prizes.push({ name: 'Новый скин', img: null });
   renderPrizesList();
   renderBoxes();
@@ -945,19 +827,20 @@ function toggleSettings() { document.getElementById('prizesSection').classList.t
 
 // ------------------- ИНИЦИАЛИЗАЦИЯ -------------------
 function init() {
-  loadSets();
+  loadSetsFromStorage();
   renderBoxes();
   renderPrizesList();
   document.getElementById('spinBtn').disabled = true;
   document.getElementById('shuffleBtn').addEventListener('click', shufflePrizes);
   document.getElementById('toggleSettingsBtn').addEventListener('click', toggleSettings);
-  document.getElementById('openSetsBtn').addEventListener('click', openSetsModal);
   document.getElementById('addPrizeBtn').addEventListener('click', addPrize);
   document.getElementById('spinBtn').addEventListener('click', openSelectedBox);
-  document.getElementById('addSetBtn').addEventListener('click', addNewSet);
-  document.getElementById('setsModalOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeSetsModal();
-  });
+  
+  // Управление сетами
+  document.getElementById('saveSetBtn').addEventListener('click', saveCurrentAsSet);
+  document.getElementById('loadSetBtn').addEventListener('click', loadSelectedSet);
+  document.getElementById('deleteSetBtn').addEventListener('click', deleteSelectedSet);
+  
   document.getElementById('modalOverlay').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
