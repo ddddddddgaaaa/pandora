@@ -15,7 +15,6 @@
     --purple-pale: #e9d5ff;
     --gold: #f59e0b;
     --white: #ffffff;
-    --glass-bg: rgba(45, 21, 87, 0.6);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,7 +26,6 @@
     min-height: 100vh;
   }
 
-  /* Animated background */
   .bg-orbs {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
   }
@@ -50,7 +48,6 @@
 
   .container { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
 
-  /* Header */
   .header { text-align: center; margin-bottom: 40px; }
   .badge {
     display: inline-block;
@@ -85,7 +82,6 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-
   .subtitle {
     color: var(--purple-pale);
     font-size: 16px;
@@ -93,7 +89,6 @@
     opacity: 0.7;
   }
 
-  /* Boxes Grid */
   .boxes-section { margin-bottom: 30px; }
   .boxes-label {
     font-family: 'Unbounded', sans-serif;
@@ -105,14 +100,12 @@
     margin-bottom: 20px;
     opacity: 0.7;
   }
-
   .boxes-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 14px;
     margin-bottom: 12px;
   }
-
   .box {
     aspect-ratio: 1;
     border-radius: 20px;
@@ -125,7 +118,6 @@
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(2px);
   }
   .box::before {
     content: '';
@@ -155,7 +147,6 @@
     border-color: rgba(168,85,247,0.2);
   }
   .box.opened .box-icon { display: none; }
-
   .box-icon { font-size: 32px; transition: transform 0.3s; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
   .box-num {
     font-family: 'Unbounded', sans-serif;
@@ -163,8 +154,6 @@
     color: rgba(255,255,255,0.4);
     letter-spacing: 1px;
   }
-  .box.selected .box-num { color: rgba(255,255,255,0.9); }
-
   .prize-inside {
     display: none;
     flex-direction: column;
@@ -193,7 +182,7 @@
     font-weight: 500;
   }
 
-  /* Prize Editor (настраиваемые призы) */
+  /* Prize Editor */
   .prizes-section {
     background: linear-gradient(145deg, var(--purple-mid), #1e0b3a);
     border: 1.5px solid rgba(168,85,247,0.3);
@@ -202,9 +191,7 @@
     margin-bottom: 30px;
     transition: all 0.4s ease;
   }
-  .prizes-section.hidden {
-    display: none;
-  }
+  .prizes-section.hidden { display: none; }
   .section-title {
     font-family: 'Unbounded', sans-serif;
     font-size: 14px;
@@ -217,9 +204,7 @@
     opacity: 0.5;
     margin-bottom: 22px;
   }
-
   .prizes-list { display: flex; flex-direction: column; gap: 12px; max-height: 320px; overflow-y: auto; padding-right: 6px; }
-
   .prize-row {
     display: grid;
     grid-template-columns: 36px 1fr auto auto;
@@ -236,7 +221,6 @@
     color: white;
     font-weight: 700;
   }
-
   .prize-input {
     background: rgba(255,255,255,0.07);
     border: 1.5px solid rgba(168,85,247,0.3);
@@ -250,8 +234,6 @@
     outline: none;
   }
   .prize-input:focus { border-color: var(--purple-glow); background: rgba(168,85,247,0.12); }
-  .prize-input::placeholder { color: rgba(255,255,255,0.2); }
-
   .img-btn {
     width: 38px; height: 38px;
     border-radius: 14px;
@@ -268,7 +250,6 @@
   .img-btn.has-img { border-style: solid; border-color: var(--purple-glow); background: rgba(168,85,247,0.2); }
   .img-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; position: absolute; inset: 0; }
   .img-btn input[type=file] { display: none; }
-
   .del-btn {
     width: 38px; height: 38px;
     border-radius: 14px;
@@ -281,7 +262,6 @@
     transition: all 0.2s;
   }
   .del-btn:hover { border-color: rgba(255,100,100,0.9); color: #ff8888; background: rgba(255,100,100,0.1); }
-
   .add-prize-btn {
     width: 100%;
     padding: 12px;
@@ -328,7 +308,6 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(124,58,237,0.4);
   }
-
   .spin-btn {
     display: block;
     width: 100%;
@@ -363,7 +342,7 @@
   .spin-btn:active { transform: scale(0.98); }
   .spin-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  /* Modal — увеличенное фото */
+  /* Modal */
   .modal-overlay {
     position: fixed; inset: 0; z-index: 100;
     background: rgba(10,0,20,0.9);
@@ -373,38 +352,22 @@
     transition: opacity 0.3s;
   }
   .modal-overlay.show { opacity: 1; pointer-events: all; }
-
   .modal {
     background: linear-gradient(145deg, var(--purple-mid), #1a0940);
     border: 1.5px solid rgba(168,85,247,0.5);
     border-radius: 48px;
-    padding: 48px 32px;
-    max-width: 460px;
+    padding: 32px 28px;
+    max-width: 520px;
     width: 90%;
     text-align: center;
     transform: scale(0.8) translateY(20px);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 70px rgba(168,85,247,0.4);
+    max-height: 85vh;
+    overflow-y: auto;
   }
   .modal-overlay.show .modal { transform: scale(1) translateY(0); }
-  
-  .modal-emoji { font-size: 80px; margin-bottom: 20px; display: block; animation: bounceIn 0.5s 0.2s both; }
-  .modal-prize-img {
-    width: 180px;
-    height: 180px;
-    border-radius: 36px;
-    object-fit: cover;
-    margin: 0 auto 20px;
-    display: block;
-    border: 3px solid var(--purple-glow);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-    animation: bounceIn 0.5s 0.2s both;
-  }
-  @keyframes bounceIn {
-    0% { transform: scale(0); opacity: 0; }
-    70% { transform: scale(1.05); }
-    100% { transform: scale(1); opacity: 1; }
-  }
+  .modal-prize-img { width: 180px; height: 180px; border-radius: 36px; object-fit: cover; margin: 0 auto 20px; border: 3px solid var(--purple-glow); }
   .modal-label {
     font-family: 'Unbounded', sans-serif;
     font-size: 10px;
@@ -434,6 +397,87 @@
   }
   .modal-close:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(168,85,247,0.6); }
 
+  /* Sets window styles */
+  .sets-modal-content {
+    text-align: left;
+  }
+  .sets-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .sets-header h3 {
+    font-family: 'Unbounded', sans-serif;
+    color: white;
+    font-size: 20px;
+  }
+  .sets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .set-card {
+    background: rgba(0,0,0,0.4);
+    border-radius: 24px;
+    padding: 16px;
+    border: 1px solid rgba(168,85,247,0.3);
+  }
+  .set-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 18px;
+    color: var(--purple-light);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .skin-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  .skin-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #2a0f4a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .skin-img img { width: 100%; height: 100%; object-fit: cover; }
+  .skin-name {
+    flex: 1;
+    color: white;
+    font-weight: 500;
+  }
+  .small-btn {
+    background: rgba(168,85,247,0.2);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+  }
+  .add-skin-btn, .add-set-btn {
+    width: 100%;
+    margin-top: 12px;
+    background: rgba(168,85,247,0.2);
+    border: 1px dashed var(--purple-glow);
+    border-radius: 20px;
+    padding: 10px;
+    color: var(--purple-light);
+    cursor: pointer;
+  }
   .confetti-piece {
     position: fixed;
     width: 10px; height: 10px;
@@ -464,19 +508,17 @@
     <p class="subtitle">Выбери ящик и узнай свой приз</p>
   </div>
 
-  <!-- Boxes -->
   <div class="boxes-section">
     <div class="boxes-label">🗳️ ВЫБЕРИ ОДИН ИЗ 10 ЯЩИКОВ</div>
     <div class="boxes-grid" id="boxesGrid"></div>
   </div>
 
-  <!-- Кнопки управления -->
   <div class="action-group">
     <button class="action-btn" id="shuffleBtn">🎲 ПЕРЕМЕШАТЬ КЕЙСЫ</button>
     <button class="action-btn" id="toggleSettingsBtn">⚙️ НАСТРОЙКИ НАГРАД</button>
+    <button class="action-btn" id="openSetsBtn">📦 СЕТЫ</button>
   </div>
 
-  <!-- Prize editor (настраиваемые призы) -->
   <div class="prizes-section" id="prizesSection">
     <div class="section-title">🎁 РЕДАКТОР ПРИЗОВ</div>
     <div class="section-sub">Меняй названия и загружай изображения (клик на 📷)</div>
@@ -487,7 +529,7 @@
   <button class="spin-btn" id="spinBtn">🎲 ОТКРЫТЬ ЯЩИК</button>
 </div>
 
-<!-- Modal -->
+<!-- Modal для выигрыша -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div id="modalVisual"></div>
@@ -498,8 +540,20 @@
   </div>
 </div>
 
+<!-- Modal для СЕТОВ -->
+<div class="modal-overlay" id="setsModalOverlay">
+  <div class="modal sets-modal-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h3 style="color: white; font-family: 'Unbounded';">📦 Управление сетами</h3>
+      <button class="modal-close" style="padding: 8px 20px;" onclick="closeSetsModal()">✕</button>
+    </div>
+    <div id="setsContainer"></div>
+    <button class="add-set-btn" id="addSetBtn">+ Добавить сет</button>
+  </div>
+</div>
+
 <script>
-// ------------------- НАЧАЛЬНЫЕ ДАННЫЕ -------------------
+// ------------------- ОСНОВНЫЕ ПРИЗЫ (без изменений) -------------------
 let prizes = [
   { name: 'Длор', img: null },
   { name: 'Вой', img: null },
@@ -516,13 +570,154 @@ let prizes = [
 let selectedBox = null;
 let openedBoxes = new Set();
 
-// DOM элементы
-const boxesGrid = document.getElementById('boxesGrid');
-const spinBtn = document.getElementById('spinBtn');
+// ------------------- СЕТЫ (localStorage) -------------------
+let sets = []; // каждый сет: { id, name, skins: [{ name, img }] }
 
-// ------------------- ОТРИСОВКА ЯЩИКОВ -------------------
+function loadSets() {
+  const stored = localStorage.getItem('csgo_sets');
+  if (stored) {
+    sets = JSON.parse(stored);
+  } else {
+    // демо-сет для примера
+    sets = [
+      { id: 'set1', name: 'Элитные скины', skins: [{ name: 'AWP | Dragon Lore', img: null }, { name: 'M4A4 | Howl', img: null }] }
+    ];
+    saveSets();
+  }
+}
+
+function saveSets() {
+  localStorage.setItem('csgo_sets', JSON.stringify(sets));
+}
+
+function renderSetsUI() {
+  const container = document.getElementById('setsContainer');
+  if (!container) return;
+  if (sets.length === 0) {
+    container.innerHTML = '<div style="color: #aaa; text-align:center; padding:20px;">Нет созданных сетов. Нажмите "+ Добавить сет"</div>';
+    return;
+  }
+  container.innerHTML = '';
+  sets.forEach((set, idx) => {
+    const setDiv = document.createElement('div');
+    setDiv.className = 'set-card';
+    setDiv.innerHTML = `
+      <div class="set-title">
+        <span>📁 ${escapeHtml(set.name)}</span>
+        <button class="small-btn" data-set-delete="${idx}" style="background:#ff4444aa;">🗑️</button>
+      </div>
+      <div class="set-skins-list" id="set-skins-${idx}"></div>
+      <button class="add-skin-btn" data-set-addskin="${idx}">+ Добавить скин в сет</button>
+    `;
+    container.appendChild(setDiv);
+    
+    const skinsContainer = setDiv.querySelector(`.set-skins-list`);
+    set.skins.forEach((skin, skinIdx) => {
+      const skinItem = document.createElement('div');
+      skinItem.className = 'skin-item';
+      skinItem.innerHTML = `
+        <div class="skin-img">
+          ${skin.img ? `<img src="${skin.img}">` : '🎨'}
+        </div>
+        <div class="skin-name">${escapeHtml(skin.name) || 'Без названия'}</div>
+        <button class="small-btn" data-skin-delete="${idx}|${skinIdx}" style="background:#ff6666aa;">✕</button>
+      `;
+      skinsContainer.appendChild(skinItem);
+    });
+    
+    // удаление сета
+    setDiv.querySelector('[data-set-delete]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (confirm(`Удалить сет "${set.name}"?`)) {
+        sets.splice(idx, 1);
+        saveSets();
+        renderSetsUI();
+      }
+    });
+    
+    // добавление скина в этот сет
+    setDiv.querySelector('[data-set-addskin]').addEventListener('click', () => {
+      openAddSkinToSet(idx);
+    });
+    
+    // обработчики удаления скинов
+    document.querySelectorAll(`[data-skin-delete]`).forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = btn.getAttribute('data-skin-delete');
+        const [setIdx, skinIdx] = val.split('|').map(Number);
+        if (!isNaN(setIdx) && !isNaN(skinIdx) && sets[setIdx]) {
+          sets[setIdx].skins.splice(skinIdx, 1);
+          saveSets();
+          renderSetsUI();
+        }
+      });
+    });
+  });
+}
+
+function openAddSkinToSet(setIdx) {
+  const skinName = prompt('Введите название скина:');
+  if (!skinName) return;
+  // загрузка фото опционально, предложим позже, но можно и просто текст
+  const newSkin = { name: skinName, img: null };
+  // предложим загрузить фото
+  const loadPhoto = confirm('Хотите добавить фото для этого скина?');
+  if (loadPhoto) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          newSkin.img = ev.target.result;
+          sets[setIdx].skins.push(newSkin);
+          saveSets();
+          renderSetsUI();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        sets[setIdx].skins.push(newSkin);
+        saveSets();
+        renderSetsUI();
+      }
+    };
+    input.click();
+  } else {
+    sets[setIdx].skins.push(newSkin);
+    saveSets();
+    renderSetsUI();
+  }
+}
+
+function addNewSet() {
+  const setName = prompt('Введите название нового сета:');
+  if (!setName) return;
+  const newSet = {
+    id: Date.now().toString(),
+    name: setName,
+    skins: []
+  };
+  sets.push(newSet);
+  saveSets();
+  renderSetsUI();
+}
+
+// модалка сетов
+function openSetsModal() {
+  renderSetsUI();
+  document.getElementById('setsModalOverlay').classList.add('show');
+}
+function closeSetsModal() {
+  document.getElementById('setsModalOverlay').classList.remove('show');
+}
+
+// ------------------- ОСТАЛЬНАЯ ЛОГИКА (ящики, призы, перемешивание) -------------------
 function renderBoxes() {
-  boxesGrid.innerHTML = '';
+  const grid = document.getElementById('boxesGrid');
+  grid.innerHTML = '';
   for (let i = 0; i < 10; i++) {
     const prizeForBox = prizes[i % prizes.length];
     const box = document.createElement('div');
@@ -543,59 +738,51 @@ function renderBoxes() {
         <div class="box-num">#${i + 1}</div>`;
       box.onclick = (function(idx) { return function() { selectBox(idx); }; })(i);
     }
-    boxesGrid.appendChild(box);
+    grid.appendChild(box);
   }
 }
 
-// Выбор ящика (без спойлера)
 function selectBox(i) {
   if (openedBoxes.has(i)) return;
   selectedBox = (selectedBox === i) ? null : i;
-  spinBtn.disabled = (selectedBox === null);
+  document.getElementById('spinBtn').disabled = (selectedBox === null);
   renderBoxes();
 }
 
-// Открытие выбранного ящика с увеличенным фото
 function openSelectedBox() {
   if (selectedBox === null) return;
   const prize = prizes[selectedBox % prizes.length];
   openedBoxes.add(selectedBox);
   
-  // Модалка с увеличенным изображением
   const visual = document.getElementById('modalVisual');
   if (prize.img) {
     visual.innerHTML = `<img class="modal-prize-img" src="${prize.img}" alt="prize">`;
   } else {
-    visual.innerHTML = `<span class="modal-emoji">🎁</span>`;
+    visual.innerHTML = `<span class="modal-emoji" style="font-size:70px;">🎁</span>`;
   }
   document.getElementById('modalPrizeName').textContent = prize.name;
   document.getElementById('modalBoxNum').innerHTML = `Ящик #${selectedBox + 1}`;
   document.getElementById('modalOverlay').classList.add('show');
-  
   launchConfetti();
   
   selectedBox = null;
-  spinBtn.disabled = true;
+  document.getElementById('spinBtn').disabled = true;
   renderBoxes();
 }
 
-// ------------------- ПЕРЕМЕШИВАНИЕ КЕЙСОВ -------------------
 function shufflePrizes() {
-  // Перемешиваем массив призов
   for (let i = prizes.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [prizes[i], prizes[j]] = [prizes[j], prizes[i]];
   }
-  // Сбрасываем все открытые ящики и выбранный
   openedBoxes.clear();
   selectedBox = null;
-  spinBtn.disabled = true;
+  document.getElementById('spinBtn').disabled = true;
   renderBoxes();
-  renderPrizesList();  // обновляем редактор
+  renderPrizesList();
   launchMiniConfetti();
 }
 
-// Мини конфетти для анимации перемешивания
 function launchMiniConfetti() {
   for (let i = 0; i < 30; i++) {
     setTimeout(() => {
@@ -612,13 +799,6 @@ function launchMiniConfetti() {
   }
 }
 
-// ------------------- НАСТРОЙКИ: СКРЫТЬ/ПОКАЗАТЬ РЕДАКТОР -------------------
-function toggleSettings() {
-  const section = document.getElementById('prizesSection');
-  section.classList.toggle('hidden');
-}
-
-// ------------------- РЕДАКТОР ПРИЗОВ -------------------
 function renderPrizesList() {
   const list = document.getElementById('prizesList');
   if (!list) return;
@@ -636,19 +816,13 @@ function renderPrizesList() {
       <button class="del-btn" data-idx="${idx}" title="Удалить">✕</button>
     `;
     list.appendChild(row);
-    
-    // Обработчик изменения имени
     const input = row.querySelector('.prize-input');
     input.addEventListener('input', (e) => {
       prizes[idx].name = e.target.value;
       renderBoxes();
     });
-    
-    // Загрузка изображения
     const fileInput = row.querySelector('.img-file-input');
     fileInput.addEventListener('change', (e) => handleImgUpload(e, idx));
-    
-    // Удаление приза
     const delBtn = row.querySelector('.del-btn');
     delBtn.addEventListener('click', () => removePrize(idx));
   });
@@ -671,14 +845,12 @@ function addPrize() {
   renderPrizesList();
   renderBoxes();
 }
-
 function removePrize(idx) {
   if (prizes.length <= 1) return;
   prizes.splice(idx, 1);
   renderPrizesList();
   renderBoxes();
 }
-
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/[&<>]/g, function(m) {
@@ -688,8 +860,6 @@ function escapeHtml(str) {
     return m;
   });
 }
-
-// ------------------- КОНФЕТТИ -------------------
 function launchConfetti() {
   const colors = ['#a855f7','#c084fc','#f59e0b','#ffffff','#7c3aed','#e9d5ff'];
   for (let i = 0; i < 90; i++) {
@@ -711,30 +881,28 @@ function launchConfetti() {
     }, i * 25);
   }
 }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
+function toggleSettings() { document.getElementById('prizesSection').classList.toggle('hidden'); }
 
-// Закрытие модалки
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('show');
-}
-
-// ------------------- ИНИЦИАЛИЗАЦИЯ И СОБЫТИЯ -------------------
+// ------------------- ИНИЦИАЛИЗАЦИЯ -------------------
 function init() {
+  loadSets();
   renderBoxes();
   renderPrizesList();
-  spinBtn.disabled = true;
-  
-  // Кнопки
+  document.getElementById('spinBtn').disabled = true;
   document.getElementById('shuffleBtn').addEventListener('click', shufflePrizes);
   document.getElementById('toggleSettingsBtn').addEventListener('click', toggleSettings);
+  document.getElementById('openSetsBtn').addEventListener('click', openSetsModal);
   document.getElementById('addPrizeBtn').addEventListener('click', addPrize);
-  spinBtn.addEventListener('click', openSelectedBox);
-  
-  // Закрытие модалки по клику на фон
+  document.getElementById('spinBtn').addEventListener('click', openSelectedBox);
+  document.getElementById('addSetBtn').addEventListener('click', addNewSet);
+  document.getElementById('setsModalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeSetsModal();
+  });
   document.getElementById('modalOverlay').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
 }
-
 init();
 </script>
 </body>
